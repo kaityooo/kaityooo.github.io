@@ -393,6 +393,8 @@
 <body>
     <script src="data.js"></script>
 
+    <button id="theme-toggle-btn" onclick="toggleTheme()" type="button"></button>
+
     
     <div class="container">
         <nav class="sidebar">
@@ -660,7 +662,7 @@
                 const item = document.createElement('div');
                 item.className = "list-item unlocked";
                 item.onclick = () => openModal('talent', key);
-                item.innerHTML = `<div class="item-icon">${t.iconChar}</div><div class="item-info"><div class="item-name">${t.title}</div><div class="item-sub">${t.sub.includes("Lv") ? `<span class="talent-lvl"></span>` : t.sub}</div></div>`;
+                item.innerHTML = `<div class="item-icon">${t.iconChar}</div><div class="item-info"><div class="item-name">${t.title}</div><div class="item-sub">${t.sub.includes("Lv") ? `<span class="talent-lvl">${t.sub}</span>` : t.sub}</div></div>`;
                 container.appendChild(item);
             });
         }
