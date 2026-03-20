@@ -8,7 +8,7 @@
   "weapon": "bow",
   "rarity": 5,
   "region": "璃月",
-  "image": "/images/character_icon/Yelan.png",
+  "image": "images/character_icon/Yelan.png",
   "description": "",
   "stats": {
     "baseHP": 14450,
