@@ -1,8 +1,3 @@
-/**
- * index.js — キャラクター一覧ページ
- * JSONから自動生成。characters.json にキャラを追加するだけで表示される。
- */
-
 /* --- 元素定義 --- */
 const ELEMENTS = {
   pyro:    { name: '炎' },
@@ -49,10 +44,10 @@ function buildFilters(chars) {
   const bar = document.getElementById('filterBar');
   const elements = [...new Set(chars.map(c => c.element))];
 
-  // 「全て」ボタン
+  // 全てボタン
   bar.appendChild(makeFilterBtn('all', '全て', true));
 
-  // 元素別ボタン（アイコン画像 + テキスト）
+  // 元素別ボタン アイコン画像 + テキスト
   elements.forEach(el => {
     const info = ELEMENTS[el] || { name: el };
     const btn = document.createElement('button');
@@ -99,7 +94,7 @@ function renderGrid(chars) {
   chars.forEach(c => grid.appendChild(makeCard(c)));
 }
 
-/* --- カード生成 --- */
+/* --- キャラカード生成 --- */
 function makeCard(c) {
   const info  = ELEMENTS[c.element] || { name: c.element };
   const stars = '★'.repeat(c.rarity);
