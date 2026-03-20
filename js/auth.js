@@ -6,7 +6,7 @@
  * 動作フロー:
  *   1. ページロード時に guardPage() を呼び出す
  *   2. 認証済み → コールバック関数を実行（管理画面を描画）
- *   3. 未認証 → ログインフォームを描画（管理コンテンツは一切描画しない）
+ *   3. 未認証 → ログインフォームを描画
  *   4. 正しいパスワード → sessionStorage に認証トークンを保存
  *   5. ログアウト → sessionStorage をクリアしてリロード
  *
@@ -14,7 +14,7 @@
  *   <script src="../js/auth-config.js"></script>
  *   <script src="../js/auth.js"></script>
  *   <script>
- *     guardPage(() => { /* 認証後に実行する処理 *\/ });
+ *     guardPage(() => { /* 認証後に実行処理 *\/ });
  *   </script>
  * ============================================================
  */
@@ -37,7 +37,7 @@ async function sha256(str) {
 }
 
 /**
- * ロックアウト状態を確認・更新する
+ * ロックアウト状態を確認・更新
  * @returns {{ locked: boolean, remaining: number }} ロック状態と残り秒数
  */
 function checkLockout() {
@@ -61,7 +61,7 @@ function checkLockout() {
 }
 
 /**
- * 失敗回数を記録する
+ * 失敗回数を記録
  */
 function recordFailedAttempt() {
   const key  = AUTH_CONFIG.sessionKey + '_lock';
@@ -75,7 +75,7 @@ function recordFailedAttempt() {
 }
 
 /**
- * 失敗カウンターをリセットする（ログイン成功時）
+ * ログイン成功時に失敗カウンターをリセットする
  */
 function clearLockout() {
   sessionStorage.removeItem(AUTH_CONFIG.sessionKey + '_lock');
@@ -100,7 +100,7 @@ function isAuthenticated() {
       sessionStorage.removeItem(AUTH_CONFIG.sessionKey);
       return false;
     }
-    // トークン形式チェック（簡易）
+    // トークン形式チェック
     return typeof token === 'string' && token.length === 64;
   } catch {
     return false;
@@ -397,8 +397,8 @@ function startLockoutCountdown(el, seconds) {
     const timeStr = m > 0
       ? `${m}分${s.toString().padStart(2,'0')}秒`
       : `${s}秒`;
-    el.innerHTML = `ログイン試行回数の上限に達しました。<br>
-      <span class="lockout-timer">${timeStr}</span> 後に再度お試しください。`;
+    el.innerHTML = `ログイン試行回数の上限に達したゾ。<br>
+      <span class="lockout-timer">${timeStr}</span> 後に試せ。`;
   }
 
   update();
@@ -427,7 +427,7 @@ function injectLogoutButton() {
   if (nav) {
     const btn = document.createElement('button');
     btn.className  = 'nav-link';
-    btn.textContent = '🔓 ログアウト';
+    btn.textContent = ' ログアウト';
     btn.style.cssText = `
       background:transparent;
       border:1px solid rgba(232,85,85,.3);
@@ -443,9 +443,9 @@ function injectLogoutButton() {
   }
 }
 
-/* ============================================================
+/*
    メインエントリーポイント
-   ============================================================ */
+ */
 
 /**
  * 管理ページを保護する
@@ -464,7 +464,7 @@ function guardPage(onAuthenticated) {
   hidePageContent();
 
   if (isAuthenticated()) {
-    // ✅ 認証済み → コンテンツを表示してコールバック実行
+    // ✅ 認証済み → コンテンツを表示して実行
     document.documentElement.style.visibility = 'visible';
     // DOM構築完了後にコールバック
     if (document.readyState === 'loading') {
@@ -477,7 +477,7 @@ function guardPage(onAuthenticated) {
       onAuthenticated();
     }
   } else {
-    // ❌ 未認証 → ログイン画面を表示（コンテンツは描画しない）
+    // ❌ 未認証 → ログイン画面を表示
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', showLoginScreen);
     } else {
