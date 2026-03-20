@@ -1,19 +1,3 @@
-/**
- * ============================================================
- * create.js — キャラクター作成フォーム スクリプト
- * ============================================================
- *
- * 主な機能:
- *  1. 天賦ブロックの動的追加/削除
- *  2. 攻撃倍率行（Lv.1-15）の動的追加/削除
- *  3. 固有天賦ブロックの動的追加/削除
- *  4. 命ノ星座（固定C1-C6）の入力
- *  5. フォーム全体からJSONを生成
- *  6. JSONのコピー・ダウンロード
- *  7. 元素セレクターのアイコン連動
- * ============================================================
- */
-
 /* ==========================================================
    定数
    ========================================================== */
@@ -64,7 +48,7 @@ let passiveCounter = 0;
 /**
  * initFormPage — 管理フォームを初期化する
  * 通常は DOMContentLoaded で自動実行。
- * 認証済みページ（tools-fysmrqjp/）から動的呼び出しも可。
+ * 認証済みページ（tools-fysmrqjp/）から動的呼び出し可。
  */
 function initFormPage() {
   initElementSelector();
@@ -73,15 +57,13 @@ function initFormPage() {
   initConstellationSection();
   initJsonActions();
 
-  // 初期状態でデフォルト天賦3つ（通常・スキル・爆発）を追加
   addTalentBlock('normal');
   addTalentBlock('skill');
   addTalentBlock('burst');
 
-  // デフォルト固有天賦1つ
   addPassiveBlock();
 
-  // リアルタイムJSON更新（主要フィールドの変更を監視）
+  // リアルタイムJSON更新
   const form = document.getElementById('formMain');
   if (form) {
     form.addEventListener('input', debounce(generateJSON, 400));
@@ -91,7 +73,7 @@ function initFormPage() {
 
 // DOMContentLoaded で自動実行（create-character.html 直接アクセス時）
 document.addEventListener('DOMContentLoaded', () => {
-  // tools-fysmrqjp 版から動的ロードされた場合はスキップ
+  // tools-fysmrqjp 版から動的ロードされた場合スキップ
   if (document.getElementById('formMain')) {
     initFormPage();
   }
@@ -111,11 +93,7 @@ function initElementSelector() {
   });
 }
 
-/**
- * 元素プレビューを更新する
- * @param {string} value - 選択された元素値
- * @param {HTMLElement} preview - プレビューコンテナ
- */
+
 function updateElementPreview(value, preview) {
   if (!value) {
     preview.classList.remove('has-value');
@@ -140,7 +118,7 @@ function updateElementPreview(value, preview) {
 }
 
 /* ==========================================================
-   2. 天賦ブロック（動的追加）
+   2. 天賦（動的追加）
    ========================================================== */
 function initTalentSection() {
   const addBtn = document.getElementById('addTalentBtn');
@@ -149,10 +127,7 @@ function initTalentSection() {
   }
 }
 
-/**
- * 天賦ブロックを追加する
- * @param {string} defaultType - デフォルトの天賦タイプ
- */
+
 function addTalentBlock(defaultType = 'normal') {
   talentCounter++;
   const tid = talentCounter;
@@ -200,15 +175,15 @@ function addTalentBlock(defaultType = 'normal') {
 
   container.appendChild(block);
 
-  // デフォルトで1行追加
+  // デフォルト1行追加
   addMultRow(tid);
 
-  // 番号を更新
+  // 番号更新
   refreshTalentNumbers();
   generateJSON();
 }
 
-/** 天賦ブロックを削除する */
+/** 天賦ブロックを削除 */
 function removeTalentBlock(tid) {
   const block = document.querySelector(`[data-talent-id="${tid}"]`);
   if (block) {
@@ -218,7 +193,7 @@ function removeTalentBlock(tid) {
   }
 }
 
-/** 天賦番号を振り直す */
+/** 天賦番号を振り直し */
 function refreshTalentNumbers() {
   document.querySelectorAll('.talent-block').forEach((block, i) => {
     const numEl = block.querySelector('.talent-block__num');
@@ -240,7 +215,7 @@ const MULT_SUGGESTIONS = [
 let multSuggestionIdx = 0;
 
 /**
- * 天賦に倍率行を追加する
+ * 天賦に倍率行を追加
  * @param {number} tid - 天賦ID
  */
 function addMultRow(tid) {
@@ -283,7 +258,7 @@ function addMultRow(tid) {
 }
 
 /* ==========================================================
-   4. 固有天賦ブロック（動的追加）
+   4. 固有天賦（動的追加）
    ========================================================== */
 function initPassiveSection() {
   const addBtn = document.getElementById('addPassiveBtn');
@@ -292,7 +267,7 @@ function initPassiveSection() {
   }
 }
 
-/** 固有天賦ブロックを追加する */
+/** 固有天賦ブロックを追加 */
 function addPassiveBlock() {
   passiveCounter++;
   const pid = passiveCounter;
@@ -322,7 +297,7 @@ function addPassiveBlock() {
   generateJSON();
 }
 
-/** 固有天賦ブロックを削除する */
+/** 固有天賦ブロックを削除 */
 function removePassiveBlock(pid) {
   const block = document.querySelector(`[data-passive-id="${pid}"]`);
   if (block) {
@@ -332,7 +307,7 @@ function removePassiveBlock(pid) {
   }
 }
 
-/** 固有天賦番号を振り直す */
+/** 固有天賦番号を振り直し */
 function refreshPassiveNumbers() {
   document.querySelectorAll('.passive-block').forEach((block, i) => {
     const numEl = block.querySelector('.passive-block__num');
@@ -341,7 +316,7 @@ function refreshPassiveNumbers() {
 }
 
 /* ==========================================================
-   5. 命ノ星座（固定C1-C6）
+   5. 命ノ星座
    ========================================================== */
 function initConstellationSection() {
   const container = document.getElementById('constellationBlocks');
@@ -378,7 +353,7 @@ function initJsonActions() {
 }
 
 /**
- * フォーム全体のデータを収集してJSONを生成する
+ * フォーム全体のデータを元にJSONを生成
  * @param {boolean} userTriggered - ユーザーが明示的にボタンを押した場合true
  */
 function generateJSON(userTriggered = false) {
@@ -405,7 +380,7 @@ function generateJSON(userTriggered = false) {
 
 /**
  * フォームデータを収集してオブジェクトを返す
- * これが characters.json のキャラクター1件分の構造に対応する
+ * characters.json のキャラクター1件分の構造に対応
  */
 function collectFormData() {
   // --- 基本情報 ---
@@ -441,7 +416,7 @@ function collectFormData() {
   // --- 命ノ星座 ---
   const constellations = collectConstellations();
 
-  // --- 組み立て ---
+  // --- 組み---
   return {
     id:             id     || `char_${Date.now()}`,
     name:           name   || '名称未設定',
@@ -460,7 +435,7 @@ function collectFormData() {
 }
 
 /**
- * 天賦ブロックのデータを収集する
+ * 天賦ブロックのデータを収集
  * @returns {Array}
  */
 function collectTalents() {
@@ -471,7 +446,7 @@ function collectTalents() {
     const name = block.querySelector('[data-field="name"]')?.value || '';
     const desc = block.querySelector('[data-field="description"]')?.value || '';
 
-    // 倍率行を収集
+    // 倍率行を参照
     const multipliers = collectMultipliers(block);
 
     return {
@@ -485,9 +460,7 @@ function collectTalents() {
 }
 
 /**
- * 天賦ブロック内の倍率行を収集する
- * @param {HTMLElement} block
- * @returns {Array}
+ * 天賦ブロック内の倍率行を参照
  */
 function collectMultipliers(block) {
   const rows = block.querySelectorAll('.mult-row');
@@ -504,7 +477,6 @@ function collectMultipliers(block) {
 
 /**
  * 固有天賦のデータを収集する
- * @returns {Array}
  */
 function collectPassives() {
   const blocks = document.querySelectorAll('.passive-block');
@@ -518,7 +490,6 @@ function collectPassives() {
 
 /**
  * 命ノ星座のデータを収集する
- * @returns {Array}
  */
 function collectConstellations() {
   const result = [];
@@ -534,7 +505,7 @@ function collectConstellations() {
    7. JSONコピー / ダウンロード
    ========================================================== */
 
-/** JSONをクリップボードにコピーする */
+/** JSONをクリップボードにコピー */
 async function copyJSON() {
   const output = document.getElementById('jsonOutput');
   const text = output?.value || '';
@@ -552,13 +523,13 @@ async function copyJSON() {
   }
 }
 
-/** JSONファイルをダウンロードする */
+/** JSONファイルをダウンロード */
 function downloadJSON() {
   const output = document.getElementById('jsonOutput');
   const text = output?.value || '';
   if (!text) { showToast('⚠️ JSONが生成されていません', 'error'); return; }
 
-  // キャラクターIDをファイル名に使用
+  // キャラクターIDをファイル名に
   let fileName;
   try {
     const obj = JSON.parse(text);
@@ -580,7 +551,7 @@ function downloadJSON() {
   showToast(`✅ ${fileName} をダウンロード`, 'success');
 }
 
-/** フォームをリセットする */
+/** フォームをリセット */
 function clearForm() {
   if (!confirm('フォームの内容をリセットしますか？')) return;
   document.getElementById('formMain').reset();
@@ -628,7 +599,7 @@ function updatePreviewStatus(obj) {
    ユーティリティ
    ========================================================== */
 
-/** フォームフィールドの値を返す（トリム済み） */
+/** トリム済みのフォームフィールドの値を返す */
 function v(id) {
   return document.getElementById(id)?.value?.trim() || '';
 }
@@ -648,7 +619,7 @@ function cleanObj(obj) {
   });
 }
 
-/** ボタンを一時的に成功状態にする */
+/** ボタンを一時的に成功状態 */
 function flashBtn(id) {
   const btn = document.getElementById(id);
   if (!btn) return;
@@ -665,7 +636,7 @@ function debounce(fn, delay) {
   };
 }
 
-/** トースト通知を表示する */
+/** トースト通知を表示 */
 function showToast(msg, type = 'success') {
   let toast = document.getElementById('toast');
   if (!toast) {
