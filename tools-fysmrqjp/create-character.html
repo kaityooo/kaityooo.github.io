@@ -4,28 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>認証中... — 原神 Wiki</title>
-  <!--
-    ⚠️ セキュリティノート
-    このページは auth.js によって保護されています。
-    認証が完了するまでコンテンツは描画されません。
-    ページタイトルも認証完了後に書き換えられます。
-  -->
+  
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/create.css" />
 
-  <!--
-    認証スクリプトは <head> の最初に読み込む。
-    これにより DOMContentLoaded より前に認証チェックが走り、
-    コンテンツのフラッシュを防止する。
-  -->
   <script src="../js/auth-config.js"></script>
   <script src="../js/auth.js"></script>
   <script>
-    // ページコンテンツを即座に非表示にする（認証前のフラッシュ防止）
     document.documentElement.style.visibility = 'hidden';
 
     // guardPage を呼び出す。
-    // コールバック内のコードは認証成功後にのみ実行される。
+    // コールバック内のコードは認証成功後にのみ実行
     guardPage(function() {
       // ✅ 認証済み: ページタイトルとコンテンツを初期化
       document.title = 'キャラクター作成 — 原神 Wiki';
@@ -35,8 +24,8 @@
 </head>
 <body>
 <!--
-  ⚠️ 重要: <body> の中身は意図的に空にしている。
-  認証が完了するまで管理用HTMLは一切描画しない。
+    <body> の中身は意図的に空
+  認証が完了するまで管理用HTMLは一切描画なし
   全コンテンツは initCreatePage() から動的に生成される。
 -->
 </body>
@@ -44,11 +33,11 @@
 
 <script>
 /**
- * initCreatePage — 認証後に管理UIを動的に構築する
- * guardPage() のコールバックとして呼ばれる。
+ * initCreatePage — 認証後に管理UIを動的に構築。
+ * guardPage() のコールバックとして呼びだし
  */
 function initCreatePage() {
-  // <body> にサイト構造を注入
+  // <body> にサイト構造を挿入
   document.body.innerHTML = `
     <div class="site-wrapper">
 
@@ -314,8 +303,8 @@ function initCreatePage() {
   const script = document.createElement('script');
   script.src = '../js/create.js';
   script.onload = function() {
-    // create.js のDOMContentLoadedイベントは既に発火済みのため
-    // 直接初期化関数を呼び出す
+    // create.js のDOMContentLoadedイベントは既に発火済みダカラネ
+    // 直接初期化関数を呼び出し
     if (typeof initFormPage === 'function') {
       initFormPage();
     }
