@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>パスワードハッシュ生成ツール — 原神 Wiki</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #111;
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .wrap { width: 100%; max-width: 520px; }
+    h1 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #e8c870;
+      margin-bottom: 4px;
+    }
+    .sub { font-size: .75rem; color: #555; margin-bottom: 24px; }
+    .card {
+      background: #1e1e1e;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 14px;
+    }
+    label {
+      display: block;
+      font-size: .7rem;
+      font-weight: 700;
+      color: #666;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    input[type=password], input[type=text] {
+      width: 100%;
+      background: #252525;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px;
+      padding: 9px 12px;
+      color: #f0f0f0;
+      font-size: .88rem;
+      font-family: inherit;
+      outline: none;
+      margin-bottom: 12px;
+      transition: border-color .18s;
+    }
+    input:focus { border-color: #c8a840; }
+    button {
+      padding: 9px 20px;
+      background: rgba(200,168,64,.1);
+      border: 1px solid #c8a840;
+      border-radius: 8px;
+      color: #e8c870;
+      font-size: .85rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all .18s;
+      width: 100%;
+    }
+    button:hover { background: rgba(200,168,64,.18); }
+    .result {
+      margin-top: 16px;
+      display: none;
+    }
+    .result.show { display: block; }
+    .hash-box {
+      background: #0e0e0e;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-family: monospace;
+      font-size: .78rem;
+      color: #7ab836;
+      word-break: break-all;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+    .copy-btn {
+      margin-top: 8px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.1);
+      color: #888;
+      font-size: .75rem;
+      padding: 6px 14px;
+      width: auto;
+    }
+    .copy-btn:hover { border-color: rgba(255,255,255,.2); color: #f0f0f0; }
+    .step {
+      background: #1a1a1a;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 10px;
+      font-size: .8rem;
+      color: #a8a8a8;
+      line-height: 1.75;
+    }
+    .step strong { color: #e8c870; display: block; margin-bottom: 4px; }
+    code {
+      background: #252525;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: .77rem;
+      color: #7ab836;
+    }
+    .warning {
+      background: rgba(232,160,85,.06);
+      border: 1px solid rgba(232,160,85,.25);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: .76rem;
+      color: #c8905a;
+      line-height: 1.7;
+      margin-top: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🔑 パスワードハッシュ生成ツール</h1>
+  <p class="sub">auth-config.js に設定するSHA-256ハッシュを生成します</p>
+
+  <div class="card">
+    <label for="pw">新しいパスワード</label>
+    <input type="password" id="pw" placeholder="設定したいパスワードを入力">
+
+    <label for="pw2">確認（再入力）</label>
+    <input type="password" id="pw2" placeholder="もう一度入力してください">
+
+    <button onclick="generate()">SHA-256 ハッシュを生成</button>
+
+    <div class="result" id="result">
+      <label>生成されたハッシュ値</label>
+      <div class="hash-box" id="hashBox"></div>
+      <button class="copy-btn" onclick="copyHash()">📋 ハッシュをコピー</button>
+    </div>
+  </div>
+
+  <div class="step">
+    <strong>① このツールでハッシュを生成</strong>
+    パスワードを入力して「生成」ボタンを押す
+  </div>
+  <div class="step">
+    <strong>② auth-config.js を更新</strong>
+    <code>js/auth-config.js</code> の <code>passwordHash</code> を生成値で書き換える
+  </div>
+  <div class="step">
+    <strong>③ GitHub にプッシュ</strong>
+    変更をコミットしてデプロイすれば新パスワードが有効になる
+  </div>
+
+  <div class="warning">
+    ⚠️ <strong>セキュリティについて</strong><br>
+    このツールはGitHub Pagesでの利用を想定した簡易保護です。
+    ハッシュ値はリポジトリに公開されます。
+    機密性の高い情報の保護には使用しないでください。
+    推測されにくい長いパスワードを設定することを推奨します。
+  </div>
+</div>
+
+<script>
+let generatedHash = '';
+
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+async function generate() {
+  const pw  = document.getElementById('pw').value;
+  const pw2 = document.getElementById('pw2').value;
+
+  if (!pw) { alert('パスワードを入力してください。'); return; }
+  if (pw !== pw2) { alert('パスワードが一致しません。'); return; }
+  if (pw.length < 8) {
+    if (!confirm('パスワードが8文字未満です。続けますか？')) return;
+  }
+
+  generatedHash = await sha256(pw);
+
+  const box = document.getElementById('hashBox');
+  box.textContent = generatedHash;
+
+  document.getElementById('result').classList.add('show');
+}
+
+async function copyHash() {
+  if (!generatedHash) return;
+  try {
+    await navigator.clipboard.writeText(generatedHash);
+    const btn = event.target;
+    btn.textContent = '✅ コピーしました';
+    setTimeout(() => btn.textContent = '📋 ハッシュをコピー', 2000);
+  } catch {
+    alert('コピーに失敗しました。手動でコピーしてください。');
+  }
+}
+</script>
+</body>
+</html>
