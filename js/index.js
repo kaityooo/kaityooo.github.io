@@ -27,11 +27,11 @@ const ALL_ELEMENTS = [
 
 /* ── 武器: 固定5種（常時表示） ── */
 const ALL_WEAPONS = [
-  { value: 'sword',    name: '片手剣',   icon: '⚔️' },
-  { value: 'claymore', name: '両手剣',   icon: '🗡️' },
-  { value: 'polearm',  name: '長柄武器', icon: '🔱' },
-  { value: 'bow',      name: '弓',       icon: '🏹' },
-  { value: 'catalyst', name: '法器',     icon: '📖' },
+  { value: 'sword',    name: '片手剣',   icon: '' },
+  { value: 'claymore', name: '両手剣',   icon: '' },
+  { value: 'polearm',  name: '長柄武器', icon: '' },
+  { value: 'bow',      name: '弓',       icon: '' },
+  { value: 'catalyst', name: '法器',     icon: '' },
 ];
 
 /* ── フィルター状態（初期値はすべて "all"） ── */
