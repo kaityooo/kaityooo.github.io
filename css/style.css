@@ -209,6 +209,10 @@ button { cursor: pointer; font-family: inherit; }
   border-color: color-mix(in srgb, var(--el-color) 50%, transparent);
   color: var(--el-color);
 }
+/* ── レアリティフィルターボタン ── */
+.filter-btn--rarity { font-size: 0.72rem; letter-spacing: -0.5px; }
+.filter-btn--rarity-5.is-active { background: rgba(200,168,64,0.14); border-color: var(--star5); color: var(--star5); font-weight: 700; }
+.filter-btn--rarity-4.is-active { background: rgba(153,102,204,0.14); border-color: var(--star4); color: var(--star4); font-weight: 700; }
 
 /* ============================================================
    9. キャラクターグリッド
