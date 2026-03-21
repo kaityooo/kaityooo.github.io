@@ -1,0 +1,466 @@
+/* ============================================================
+   Genshin Wiki — 再設計スタイルシート
+   コンセプト: シンプル・ダーク・ゲーム攻略Wiki風
+   ============================================================ */
+
+/* ---------- Google Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=M+PLUS+1:wght@400;500;700&display=swap');
+
+/* ============================================================
+   1. CSS 変数（デザイントークン）
+   ============================================================ */
+:root {
+  --bg-root:      #111111;
+  --bg-base:      #141414;
+  --bg-surface:   #1a1a1a;
+  --bg-card:      #1e1e1e;
+  --bg-hover:     #272727;
+  --bg-input:     #252525;
+
+  --border-faint:  rgba(255,255,255,0.06);
+  --border-light:  rgba(255,255,255,0.10);
+  --border-medium: rgba(255,255,255,0.16);
+  --border-gold:   rgba(200,170,80,0.30);
+
+  --text-primary:   #f0f0f0;
+  --text-secondary: #a8a8a8;
+  --text-muted:     #666666;
+  --text-gold:      #d4aa50;
+  --text-gold-light:#e8c870;
+
+  --gold:       #c8a840;
+  --gold-light: #e2c060;
+  --gold-dim:   #ffc746;
+  --gold-bg:    rgba(200,168,64,0.08);
+  --gold-bg-h:  rgba(200,168,64,0.14);
+
+  --c-pyro:    #e8603a;
+  --c-hydro:   #3ab4d4;
+  --c-anemo:   #3ec8be;
+  --c-electro: #a076d8;
+  --c-dendro:  #7ab836;
+  --c-cryo:    #78c8e0;
+  --c-geo:     #d8964a;
+
+  --star5: #c8a840;
+  --star4: #9966cc;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-pill: 100px;
+
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+
+  --max-width: 1600px;
+  --font-base: 'Noto Sans JP', sans-serif;
+  --font-ja:   'M PLUS 1', 'Noto Sans JP', sans-serif;
+  --tr: 0.18s ease;
+}
+
+/* ============================================================
+   2. リセット & ベース
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #333 var(--bg-root); }
+body { font-family: var(--font-base); background: var(--bg-root); color: var(--text-primary); min-height: 100vh; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a   { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+
+/* ============================================================
+   3. レイアウト
+   ============================================================ */
+.site-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
+.site-main { flex: 1; width: 100%; max-width: var(--max-width); margin: 0 auto; padding: 40px 28px; }
+
+/* ============================================================
+   4. ヘッダー
+   ============================================================ */
+.site-header {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(17,17,17,0.96);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-faint);
+}
+.header-inner {
+  max-width: var(--max-width); margin: 0 auto;
+  padding: 0 28px; height: 54px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.site-logo { display: flex; align-items: baseline; gap: 10px; }
+.logo-main { font-size: 1rem; font-weight: 700; color: var(--text-gold-light); letter-spacing: 0.04em; }
+.logo-sub  { font-size: 0.7rem; color: var(--text-muted); }
+.header-nav { display: flex; gap: 4px; }
+.nav-link {
+  padding: 5px 14px; border-radius: var(--radius-sm);
+  font-size: 0.8rem; color: var(--text-secondary); font-weight: 500;
+  transition: color var(--tr), background var(--tr);
+}
+.nav-link:hover { color: var(--text-primary); background: var(--bg-hover); }
+.nav-link.active { color: var(--text-gold-light); }
+
+/* ============================================================
+   5. フッター
+   ============================================================ */
+.site-footer { border-top: 1px solid var(--border-faint); padding: 24px; text-align: center; font-size: 0.73rem; color: var(--text-muted); background: var(--bg-base); }
+
+/* ============================================================
+   6. 共通コンポーネント
+   ============================================================ */
+
+/* セクション見出し */
+.section-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.88rem; font-weight: 700; color: var(--text-primary);
+  letter-spacing: 0.03em; margin-bottom: 16px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border-faint);
+}
+.section-title::before {
+  content: ''; display: block; width: 3px; height: 1em;
+  background: var(--gold); border-radius: 2px; flex-shrink: 0;
+}
+
+/* ページ見出し */
+.page-heading { margin-bottom: 28px; }
+.page-heading__title { font-size: 1.35rem; font-weight: 700; margin-bottom: 4px; }
+.page-heading__sub   { font-size: 0.78rem; color: var(--text-muted); }
+
+/* バッジ */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 10px; border-radius: var(--radius-pill);
+  font-size: 0.7rem; font-weight: 600; border: 1px solid; line-height: 1.6; white-space: nowrap;
+}
+.badge--element {
+  color: var(--el-color, var(--gold));
+  border-color: color-mix(in srgb, var(--el-color, var(--gold)) 40%, transparent);
+  background: color-mix(in srgb, var(--el-color, var(--gold)) 10%, transparent);
+}
+.badge--weapon, .badge--region { color: var(--text-secondary); border-color: var(--border-light); }
+
+/* 戻るボタン */
+.back-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light); background: var(--bg-card);
+  color: var(--text-secondary); font-size: 0.8rem;
+  transition: all var(--tr); margin-bottom: 24px;
+}
+.back-btn:hover { color: var(--text-primary); border-color: var(--border-medium); background: var(--bg-hover); }
+
+/* ローディング */
+.loading-state {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 80px 24px; color: var(--text-muted); gap: 14px; font-size: 0.83rem;
+}
+.spinner {
+  width: 30px; height: 30px;
+  border: 2px solid var(--border-light); border-top-color: var(--gold);
+  border-radius: 50%; animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* エラー */
+.error-state { text-align: center; padding: 60px 24px; color: var(--text-muted); }
+.error-state h2 { font-size: 1rem; color: var(--text-secondary); margin-bottom: 8px; }
+.error-state p { font-size: 0.83rem; line-height: 1.8; }
+.error-state code { background: var(--bg-card); padding: 1px 6px; border-radius: 4px; font-size: 0.8rem; }
+
+/* 空状態 */
+.empty-state { text-align: center; padding: 60px 24px; color: var(--text-muted); }
+.empty-state p { margin-top: 8px; font-size: 0.85rem; }
+
+/* ============================================================
+   7. 元素カラー変数
+   ============================================================ */
+[data-element="pyro"]    { --el-color: var(--c-pyro); }
+[data-element="hydro"]   { --el-color: var(--c-hydro); }
+[data-element="anemo"]   { --el-color: var(--c-anemo); }
+[data-element="electro"] { --el-color: var(--c-electro); }
+[data-element="dendro"]  { --el-color: var(--c-dendro); }
+[data-element="cryo"]    { --el-color: var(--c-cryo); }
+[data-element="geo"]     { --el-color: var(--c-geo); }
+
+/* ============================================================
+   8. フィルターバー
+   ============================================================ */
+.filter-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  margin-bottom: 24px; padding: 12px 18px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-faint); border-radius: var(--radius-lg);
+}
+.filter-bar__label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.08em; margin-right: 4px; }
+.filter-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 13px; border-radius: var(--radius-pill);
+  border: 1px solid var(--border-light); background: transparent;
+  color: var(--text-secondary); font-size: 0.78rem; font-weight: 500;
+  transition: all var(--tr);
+}
+.filter-btn:hover { border-color: var(--border-medium); color: var(--text-primary); background: var(--bg-hover); }
+.filter-btn.is-active { background: var(--gold-bg); border-color: var(--border-gold); color: var(--text-gold-light); font-weight: 700; }
+.filter-btn[data-element].is-active {
+  background: color-mix(in srgb, var(--el-color) 12%, transparent);
+  border-color: color-mix(in srgb, var(--el-color) 50%, transparent);
+  color: var(--el-color);
+}
+
+/* ============================================================
+   9. キャラクターグリッド
+   ============================================================ */
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 14px;
+}
+
+/* ============================================================
+   10. キャラクターカード（一覧）
+   ============================================================ */
+.char-card {
+  position: relative; background: var(--bg-card);
+  border: 1px solid var(--border-faint); border-radius: var(--radius-lg);
+  overflow: hidden; display: block; cursor: pointer;
+  transition: transform var(--tr), box-shadow var(--tr), border-color var(--tr);
+  animation: fadeIn 0.3s ease both;
+}
+.char-card:hover { transform: translateY(-4px) scale(1.012); box-shadow: var(--shadow-md); border-color: var(--border-light); }
+
+/* レアリティライン */
+.char-card__rarity-line { height: 2px; width: 100%; }
+.char-card[data-rarity="5"] .char-card__rarity-line { background: linear-gradient(90deg, transparent, var(--star5), transparent); }
+.char-card[data-rarity="4"] .char-card__rarity-line { background: linear-gradient(90deg, transparent, var(--star4), transparent); }
+
+/* 画像 */
+.char-card__image {
+  position: relative; width: 100%; aspect-ratio: 1 / 1;
+  background: var(--bg-surface); overflow: hidden;
+}
+.char-card__image img {
+  width: 100%; height: 100%; object-fit: cover; object-position: top center;
+  transition: transform 0.3s ease;
+}
+.char-card:hover .char-card__image img { transform: scale(1.05); }
+.char-card__image::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 45%;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); pointer-events: none;
+}
+.char-card__element-icon {
+  position: absolute; top: 6px; right: 6px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(10,10,10,0.75); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; z-index: 1; border: 1px solid rgba(255,255,255,0.07);
+}
+.char-card__placeholder {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  font-size: 3.5rem; background: var(--bg-surface);
+}
+
+/* 情報 */
+.char-card__body { padding: 9px 11px 11px; }
+.char-card__name { font-size: 0.85rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+.char-card__meta { display: flex; align-items: center; justify-content: space-between; }
+.char-card__element-text { font-size: 0.7rem; color: var(--el-color, var(--text-secondary)); }
+.char-card__stars { font-size: 0.68rem; letter-spacing: -0.5px; color: var(--gold); }
+.char-card[data-rarity="4"] .char-card__stars { color: var(--star4); }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.char-card:nth-child(1){animation-delay:.03s} .char-card:nth-child(2){animation-delay:.06s}
+.char-card:nth-child(3){animation-delay:.09s} .char-card:nth-child(4){animation-delay:.12s}
+.char-card:nth-child(5){animation-delay:.15s} .char-card:nth-child(6){animation-delay:.18s}
+.char-card:nth-child(7){animation-delay:.21s} .char-card:nth-child(8){animation-delay:.24s}
+.char-card:nth-child(n+9){animation-delay:.27s}
+
+/* ============================================================
+   11. 詳細ページ レイアウト
+   ============================================================ */
+.char-detail-layout { display: flex; flex-direction: column; gap: 20px; }
+
+/* ============================================================
+   12. ヒーローカード（詳細上部）
+   ============================================================ */
+.char-hero-card {
+  background: var(--bg-card); border: 1px solid var(--border-faint);
+  border-radius: var(--radius-xl); overflow: hidden;
+}
+.char-hero-card__banner { height: 4px; opacity: 0.55; }
+.char-hero-card__inner {
+  display: grid; grid-template-columns: 200px 1fr;
+  gap: 32px; padding: 28px;
+}
+
+/* 肖像 */
+.char-portrait { display: flex; flex-direction: column; gap: 12px; }
+.char-portrait__image-wrap {
+  border-radius: var(--radius-lg); overflow: hidden;
+  aspect-ratio: 3/4; background: var(--bg-surface);
+}
+.char-portrait__image-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.char-portrait__placeholder {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  font-size: 5.5rem; background: var(--bg-surface);
+}
+.char-rarity { display: flex; align-items: center; justify-content: center; gap: 2px; font-size: 1.05rem; letter-spacing: -1px; }
+.char-rarity--5 { color: var(--star5); }
+.char-rarity--4 { color: var(--star4); }
+
+/* 情報エリア */
+.char-info { display: flex; flex-direction: column; gap: 12px; padding-top: 4px; }
+.char-info__name-en { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase; }
+.char-info__name-ja { font-size: 1.9rem; font-weight: 700; color: var(--text-primary); line-height: 1.2; font-family: var(--font-ja); }
+.char-info__tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.char-info__description {
+  font-size: 0.83rem; color: var(--text-secondary); line-height: 1.85;
+  border-left: 2px solid var(--border-gold); padding-left: 14px; max-width: 520px;
+}
+
+/* ============================================================
+   13. ステータス
+   ============================================================ */
+.stats-section { background: var(--bg-card); border: 1px solid var(--border-faint); border-radius: var(--radius-lg); padding: 24px; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.stat-cell {
+  background: var(--bg-surface); border: 1px solid var(--border-faint);
+  border-radius: var(--radius-md); padding: 14px 12px; text-align: center;
+  transition: border-color var(--tr), background var(--tr);
+}
+.stat-cell:hover { border-color: var(--border-light); background: var(--bg-hover); }
+.stat-cell--special { border-color: var(--border-gold); background: var(--gold-bg); }
+.stat-cell--special:hover { background: var(--gold-bg-h); }
+.stat-cell__label { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.stat-cell__value { font-size: 1.3rem; font-weight: 700; color: var(--bo); line-height: 1; font-feature-settings: "tnum"; }
+.stat-cell--special .stat-cell__value { font-size: 0.93rem; }
+.stat-cell__unit { font-size: 0.9rem; color: var(--text-secondary); margin-top: 4px; }
+
+/* ============================================================
+   14. 天賦
+   ============================================================ */
+.talents-section { background: var(--bg-card); border: 1px solid var(--border-faint); border-radius: var(--radius-lg); padding: 24px; }
+.talent-card { background: var(--bg-surface); border: 1px solid var(--border-faint); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 16px; }
+.talent-card:last-child { margin-bottom: 0; }
+.talent-card__header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 18px; background: rgba(255,255,255,0.022);
+  border-bottom: 1px solid var(--border-faint);
+}
+.talent-type-badge { padding: 2px 10px; border-radius: var(--radius-pill); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; border: 1px solid; white-space: nowrap; flex-shrink: 0; }
+.talent-type-badge--normal  { color: #ffd857; border-color: rgba(200,168,64,0.35); background: rgba(200,168,64,0.1); }
+.talent-type-badge--skill   { color: #ffd857; border-color: rgba(200,168,64,0.35); background: rgba(200,168,64,0.1); }
+.talent-type-badge--burst   { color: #ffd857; border-color: rgba(200,168,64,0.35); background: rgba(200,168,64,0.1); }
+.talent-card__name { font-size: 0.92rem; font-weight: 700; color: var(--text-primary); font-family: var(--font-ja); }
+.talent-card__body { padding: 18px; }
+.talent-card__description { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.85; margin-bottom: 18px; }
+
+/* ============================================================
+   15. 天賦レベルスライダー
+   ============================================================ */
+.talent-level-control {
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 14px; background: var(--bg-card);
+  border: 1px solid var(--border-faint); border-radius: var(--radius-md);
+  margin-bottom: 12px; flex-wrap: wrap;
+}
+.talent-level-control__label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; white-space: nowrap; flex-shrink: 0; }
+.talent-level-control__current { font-size: 1.1rem; font-weight: 700; color: var(--text-gold-light); min-width: 28px; text-align: center; flex-shrink: 0; font-feature-settings: "tnum"; }
+.level-slider {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; min-width: 100px; height: 3px; border-radius: 100px;
+  outline: none; cursor: pointer;
+  background: linear-gradient(to right, var(--gold) 0%, var(--gold) var(--pct,0%), rgba(255,255,255,0.12) var(--pct,0%), rgba(255,255,255,0.12) 100%);
+}
+.level-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 15px; height: 15px; border-radius: 50%;
+  background: var(--gold-light); border: 2px solid var(--bg-root);
+  box-shadow: 0 0 6px rgba(200,168,64,0.5); transition: transform 0.15s;
+}
+.level-slider::-webkit-slider-thumb:hover { transform: scale(1.3); }
+.level-slider::-moz-range-thumb { width: 15px; height: 15px; border-radius: 50%; background: var(--gold-light); border: 2px solid var(--bg-root); }
+
+/* ============================================================
+   16. 倍率テーブル（全Lv列表示）
+   ============================================================ */
+.multiplier-table-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border-faint); }
+.multiplier-table { width: 100%; min-width: 80px; border-collapse: collapse; font-size: 0.88rem; }
+
+/* ヘッダー行 */
+.multiplier-table thead tr { background: rgba(255,255,255,0.03); }
+.multiplier-table th {
+  padding: 8px 9px; text-align: center;
+  font-size: 0.68rem; font-weight: 700; color: var(--text-muted);
+  letter-spacing: 0.05em; white-space: nowrap;
+  border-bottom: 1px solid var(--border-faint);
+}
+.multiplier-table th:first-child { text-align: left; padding-left: 14px; min-width: 120px; }
+
+/* データ行 */
+.multiplier-table tbody tr { border-bottom: 2px solid var(--border-faint); transition: background var(--tr); }
+.multiplier-table tbody tr:last-child { border-bottom: none; }
+.multiplier-table tbody tr:hover { background: rgba(255,255,255,0.025); }
+.multiplier-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.015); }
+.multiplier-table tbody tr:nth-child(even):hover { background: rgba(255,255,255,0.03); }
+
+/* セル */
+.multiplier-table td { padding: 7px 9px; text-align: center; color: var(--text-secondary); white-space: nowrap; font-feature-settings: "tnum"; }
+.multiplier-table td:first-child { text-align: left; padding-left: 14px; color: var(--text-primary); font-weight: 500; font-size: 0.9rem; }
+
+/* 現在レベルハイライト */
+.multiplier-table th.is-active-level { color: var(--text-gold-light) !important; background: var(--gold-bg); border-bottom: 2px solid var(--gold); }
+.multiplier-table td.is-active-level { color: var(--text-gold-light) !important; font-weight: 700; background: var(--gold-bg); }
+
+/* ============================================================
+   17. 固有天賦
+   ============================================================ */
+.passives-section { background: var(--bg-card); border: 1px solid var(--border-faint); border-radius: var(--radius-lg); padding: 24px; }
+.passives-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 12px; }
+.passive-card { background: var(--bg-surface); border: 1px solid var(--border-faint); border-radius: var(--radius-md); padding: 16px 18px; transition: border-color var(--tr), background var(--tr); }
+.passive-card:hover { border-color: var(--border-light); background: var(--bg-hover); }
+.passive-card__name { font-size: 0.88rem; font-weight: 700; color: var(--text-gold-light); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-family: var(--font-ja); }
+.passive-card__name::before { content: '◆'; font-size: 0.5rem; color: var(--gold-dim); flex-shrink: 0; }
+.passive-card__desc { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.8; }
+
+/* ============================================================
+   18. 命ノ星座
+   ============================================================ */
+.constellations-section { background: var(--bg-card); border: 1px solid var(--border-faint); border-radius: var(--radius-lg); padding: 24px; }
+.constellation-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 10px; }
+.constellation-card { background: var(--bg-surface); border: 1px solid var(--border-faint); border-radius: var(--radius-md); padding: 14px 16px; display: flex; align-items: flex-start; gap: 14px; transition: border-color var(--tr), background var(--tr); }
+.constellation-card:hover { border-color: var(--border-light); background: var(--bg-hover); }
+.constellation-card__num { font-size: 0.95rem; font-weight: 700; color: var(--text-gold-light); min-width: 26px; padding-top: 2px; flex-shrink: 0; }
+.constellation-card__name { font-size: 0.86rem; font-weight: 700; color: var(--text-primary); margin-bottom: 5px; font-family: var(--font-ja); }
+.constellation-card__effect { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.75; }
+
+/* ============================================================
+   19. レスポンシブ
+   ============================================================ */
+@media (max-width: 900px) {
+  .site-main { padding: 28px 20px; }
+  .char-hero-card__inner { grid-template-columns: 168px 1fr; gap: 24px; }
+  .char-info__name-ja { font-size: 1.55rem; }
+  .character-grid { grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 12px; }
+  /* 900px 以下はカードを2カラム固定（minmax 縮小のため）*/
+  .passives-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .constellation-list { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .site-main { padding: 20px 14px; }
+  .header-inner { padding: 0 14px; }
+  .header-nav { display: none; }
+  .char-hero-card__inner { grid-template-columns: 1fr; gap: 18px; padding: 20px; }
+  .char-portrait { display: grid; grid-template-columns: 150px 1fr; gap: 16px; align-items: start; }
+  .char-info__name-ja { font-size: 1.35rem; }
+  .character-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .multiplier-table th, .multiplier-table td { padding: 6px 7px; font-size: 0.7rem; }
+  .passives-grid, .constellation-list { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 380px) {
+  .character-grid { grid-template-columns: repeat(2, 1fr); }
+}
