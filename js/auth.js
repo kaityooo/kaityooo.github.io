@@ -1,8 +1,5 @@
 /**
- * auth.js — 管理ページ認証モジュール
  * ============================================================
- * GitHub Pages 対応のクライアントサイド認証。
- *
  * 動作フロー:
  *   1. ページロード時に guardPage() を呼び出す
  *   2. 認証済み → コールバック関数を実行（管理画面を描画）
@@ -10,12 +7,6 @@
  *   4. 正しいパスワード → sessionStorage に認証トークンを保存
  *   5. ログアウト → sessionStorage をクリアしてリロード
  *
- * 使い方:
- *   <script src="../js/auth-config.js"></script>
- *   <script src="../js/auth.js"></script>
- *   <script>
- *     guardPage(() => { /* 認証後に実行する処理 *\/ });
- *   </script>
  * ============================================================
  */
 
@@ -54,14 +45,14 @@ function checkLockout() {
     if (remaining > 0) {
       return { locked: true, remaining: Math.ceil(remaining / 1000) };
     }
-    // ロック期間終了 → リセット
+    // ロック終了 → リセット
     sessionStorage.removeItem(key);
   }
   return { locked: false, remaining: 0 };
 }
 
 /**
- * 失敗回数を記録する
+ * 失敗回数を記録
  */
 function recordFailedAttempt() {
   const key  = AUTH_CONFIG.sessionKey + '_lock';
@@ -75,7 +66,7 @@ function recordFailedAttempt() {
 }
 
 /**
- * 失敗カウンターをリセットする（ログイン成功時）
+ * 失敗カウンターをリセット（ログイン成功時）
  */
 function clearLockout() {
   sessionStorage.removeItem(AUTH_CONFIG.sessionKey + '_lock');
@@ -86,7 +77,7 @@ function clearLockout() {
    ============================================================ */
 
 /**
- * 認証済みかどうかを確認する
+ * 認証済みかどうかを確認
  * @returns {boolean}
  */
 function isAuthenticated() {
@@ -134,12 +125,12 @@ function logout() {
    ログインUI
    ============================================================ */
 
-/** 認証前にページコンテンツを非表示にする */
+/** 認証前にページコンテンツを非表示に */
 function hidePageContent() {
   document.documentElement.style.visibility = 'hidden';
 }
 
-/** ログインフォームを描画してコンテンツを保護する */
+/** ログインフォームを描画してコンテンツを保護 */
 function showLoginScreen() {
   // <body> を完全にクリア（DOM inject 対策）
   document.body.innerHTML = '';
@@ -383,7 +374,7 @@ function showLoginScreen() {
 }
 
 /**
- * ロックアウトのカウントダウンを表示する
+ * ロックアウトのカウントダウンを表示
  * @param {HTMLElement} el
  * @param {number} seconds - 残り秒数
  */
@@ -418,7 +409,7 @@ function startLockoutCountdown(el, seconds) {
    ============================================================ */
 
 /**
- * ページにログアウトボタンを追加する
+ * ページにログアウトボタンを追加
  * 認証後のページ描画完了後に呼ぶ
  */
 function injectLogoutButton() {
@@ -447,18 +438,6 @@ function injectLogoutButton() {
    メインエントリーポイント
    ============================================================ */
 
-/**
- * 管理ページを保護する
- * ページの <script> から呼び出す。
- *
- * @param {Function} onAuthenticated - 認証成功後に実行するコールバック
- *
- * 使用例:
- *   guardPage(() => {
- *     // ここで管理画面の初期化処理を行う
- *     initAdminPage();
- *   });
- */
 function guardPage(onAuthenticated) {
   // 認証前にコンテンツを隠す（フラッシュ防止）
   hidePageContent();
