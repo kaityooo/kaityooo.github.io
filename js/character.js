@@ -1,12 +1,3 @@
-/**
- * character.js — キャラクター詳細ページ
- *
- * 主な変更点（UI再設計版）:
- *  - 倍率テーブルを Lv.1〜15 全列横並び表示に変更
- *  - スライダーで「現在レベル列」をハイライト
- *  - 全セクションをカード形式で統一
- */
-
 /* --- 定数 --- */
 const ELEMENTS = {
   pyro:    { name: '炎' },
@@ -60,7 +51,7 @@ async function init() {
     render(char);
   } catch (e) {
     console.error(e);
-    showError('データの読み込みに失敗しました。<br>ローカルサーバーを使用してください（例: <code>npx serve .</code>）');
+    showError('データの読み込みに失敗しました。');
   }
 }
 
@@ -217,7 +208,7 @@ function buildMultiplierTable(talent) {
   ).join('');
 
   // データ行（倍率ごと）
-  // m.usePercent が未設定の場合は true として扱う（既存JSONとの後方互換）
+  // m.usePercent が未設定の場合は true として扱う
   const rows = talent.multipliers.map(m => {
     const usePercent = m.usePercent !== false;
     const cells = LEVELS.map(lv => {
