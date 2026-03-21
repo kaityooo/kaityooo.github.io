@@ -1,8 +1,3 @@
-/* ============================================================
-   Genshin Wiki — 再設計スタイルシート
-   コンセプト: シンプル・ダーク・ゲーム攻略Wiki風
-   ============================================================ */
-
 /* ---------- Google Fonts ---------- */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=M+PLUS+1:wght@400;500;700&display=swap');
 
@@ -142,7 +137,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 .badge--weapon, .badge--region { color: var(--text-secondary); border-color: var(--border-light); }
 
-/* 戻るボタン */
+/* 戻る */
 .back-btn {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 6px 14px; border-radius: var(--radius-sm);
@@ -152,7 +147,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 .back-btn:hover { color: var(--text-primary); border-color: var(--border-medium); background: var(--bg-hover); }
 
-/* ローディング */
+/* ロード */
 .loading-state {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 80px 24px; color: var(--text-muted); gap: 14px; font-size: 0.83rem;
@@ -170,7 +165,7 @@ button { cursor: pointer; font-family: inherit; }
 .error-state p { font-size: 0.83rem; line-height: 1.8; }
 .error-state code { background: var(--bg-card); padding: 1px 6px; border-radius: 4px; font-size: 0.8rem; }
 
-/* 空状態 */
+/* ぬるぽ状態 */
 .empty-state { text-align: center; padding: 60px 24px; color: var(--text-muted); }
 .empty-state p { margin-top: 8px; font-size: 0.85rem; }
 
@@ -186,7 +181,7 @@ button { cursor: pointer; font-family: inherit; }
 [data-element="geo"]     { --el-color: var(--c-geo); }
 
 /* ============================================================
-   8. フィルターバー
+   8. フィルター
    ============================================================ */
 .filter-bar {
   display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
@@ -299,7 +294,7 @@ button { cursor: pointer; font-family: inherit; }
   gap: 32px; padding: 28px;
 }
 
-/* 肖像 */
+/* キャラ画 */
 .char-portrait { display: flex; flex-direction: column; gap: 12px; }
 .char-portrait__image-wrap {
   border-radius: var(--radius-lg); overflow: hidden;
@@ -387,7 +382,7 @@ button { cursor: pointer; font-family: inherit; }
 .level-slider::-moz-range-thumb { width: 15px; height: 15px; border-radius: 50%; background: var(--gold-light); border: 2px solid var(--bg-root); }
 
 /* ============================================================
-   16. 倍率テーブル（全Lv列表示）
+   16. 倍率テーブル
    ============================================================ */
 .multiplier-table-wrap { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border-faint); }
 .multiplier-table { width: 100%; min-width: 80px; border-collapse: collapse; font-size: 0.88rem; }
