@@ -1,14 +1,3 @@
-/**
- * create.js — キャラクター作成・編集フォーム スクリプト
- * ============================================================
- * 機能:
- *   1. フォーム入力 → キャラクターJSON生成
- *   2. 既存 {id}.json 読み込み → フォーム自動入力（編集）
- *   3. 編集後 → {id}.json としてダウンロード
- *   4. data/index.json の管理補助
- * ============================================================
- */
-
 /* ── 元素・武器・天賦定数 ── */
 
 const ELEMENTS = [
@@ -50,8 +39,8 @@ let loadedIndexData = null; // data/index.json のキャッシュ
 /* ── 初期化 ── */
 
 /**
- * initFormPage — 認証後にフォームを初期化する
- * guardPage() のコールバックまたは DOMContentLoaded から呼ばれる
+ * initFormPage — 認証後にフォームを初期化
+ * guardPage() のコールバックまたは DOMContentLoaded から呼ぶ
  */
 function initFormPage() {
   initElementSelector();
@@ -136,7 +125,7 @@ function initTalentSection() {
 }
 
 /**
- * 天賦ブロックを追加する
+ * 天賦ブロックを追加
  * @param {string} defaultType - デフォルトの天賦タイプ
  * @param {Object|null} data   - 初期値データ（編集時に使用）
  */
@@ -296,7 +285,7 @@ function initPassiveSection() {
 }
 
 /**
- * 固有天賦ブロックを追加する
+ * 固有天賦ブロックを追加
  * @param {Object|null} data - 初期値データ（編集時に使用）
  */
 function addPassiveBlock(data = null) {
@@ -372,7 +361,7 @@ function initConstellationSection() {
    ============================================================ */
 
 /**
- * 個別キャラクターJSONを読み込み、フォームに自動入力する
+ * 個別キャラクターJSONを読み込み、フォームに自動入力
  * @param {Event} event - file input の change イベント
  */
 async function handleLoadCharacterJson(event) {
@@ -400,7 +389,7 @@ async function handleLoadCharacterJson(event) {
 }
 
 /**
- * キャラクターオブジェクトをフォーム全体に反映する
+ * キャラクターオブジェクトをフォーム全体に反映
  * @param {Object} char - キャラクターデータ
  */
 function populateForm(char) {
@@ -477,7 +466,7 @@ function populateForm(char) {
     infoEl.style.display = 'block';
   }
 
-  // index.json ヘルパーを更新
+  // index.json ヘルパー
   updateIndexHelper(char.id);
 }
 
@@ -642,13 +631,13 @@ async function fetchIndexJson() {
       console.log('[create.js] data/index.json を読み込みました:', loadedIndexData.characters?.length, '件');
     }
   } catch {
-    // GitHub Pages でパスが違う場合など。サイレントに失敗させる
+    
   }
 }
 
 /**
- * index.json ヘルパーUIを更新する
- * キャラクターID が index.json に含まれているか確認して案内する
+ * index.json ヘルパーUIを更新
+ * キャラクターID が index.json に含まれているか確認して表示
  */
 function updateIndexHelper(charId) {
   const helperEl = document.getElementById('indexHelper');
@@ -678,7 +667,7 @@ function updateIndexHelper(charId) {
   }
 }
 
-/** 更新した data/index.json をダウンロードする */
+/** 更新した data/index.json をダウンロード */
 function downloadUpdatedIndex() {
   const output = document.getElementById('jsonOutput')?.value || '';
   let charId;
@@ -769,7 +758,7 @@ function v(id) {
   return document.getElementById(id)?.value?.trim() || '';
 }
 
-/** テキスト内の改行（\n）を <br> タグに変換する */
+/** テキスト内の改行（\n）を <br> タグに変換 */
 function nlToBr(text) {
   if (!text) return '';
   return String(text).replace(/\n/g, '<br>');
