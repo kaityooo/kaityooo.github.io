@@ -4,12 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>認証中... — 原神 Wiki</title>
-  <!--
-    ⚠️ セキュリティノート
-    このページは auth.js によって保護されています。
-    認証が完了するまでコンテンツは描画されません。
-    ページタイトルも認証完了後に書き換えられます。
-  -->
+  
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/create.css" />
   <style>
@@ -117,9 +112,9 @@
   </style>
 
   <!--
-    認証スクリプトは <head> の最初に読み込む。
+    認証スクリプトは <head> の最初に読み込み。
     これにより DOMContentLoaded より前に認証チェックが走り、
-    コンテンツのフラッシュを防止する。
+    コンテンツのフラッシュを防止。
   -->
   <script src="../js/auth-config.js"></script>
   <script src="../js/auth.js"></script>
@@ -138,16 +133,16 @@
 </head>
 <body>
 <!--
-  ⚠️ 重要: <body> の中身は意図的に空にしている。
+  重要: <body> の中身は意図的にnull
   認証が完了するまで管理用HTMLは一切描画しない。
-  全コンテンツは initCreatePage() から動的に生成される。
+  全コンテンツは initCreatePage() から動的に生成
 -->
 </body>
 </html>
 
 <script>
 /**
- * initCreatePage — 認証後に管理UIを動的に構築する
+ * initCreatePage — 認証後に管理UIを動的に構築
  * guardPage() のコールバックとして呼ばれる。
  */
 function initCreatePage() {
@@ -455,7 +450,7 @@ function initCreatePage() {
   const script = document.createElement('script');
   script.src = '../js/create.js';
   script.onload = function() {
-    // create.js のDOMContentLoadedイベントは既に発火済みのため
+    // create.js のDOMContentLoadedイベントは既に起動済み
     // 直接初期化関数を呼び出す
     if (typeof initFormPage === 'function') {
       initFormPage();
