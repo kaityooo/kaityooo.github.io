@@ -1,13 +1,3 @@
-/**
- * auth-config.js — 認証設定ファイル
- * ============================================================
- * ⚠️  パスワードを変更する場合は tools/gen-hash.html を使用し、
- *     生成されたハッシュ値で passwordHash を書き換えてください。
- *
- * ■ デフォルトパスワード: GenshinWiki2024
- * ============================================================
- */
-
 const AUTH_CONFIG = Object.freeze({
   /**
    * パスワードの SHA-256 ハッシュ値
@@ -17,7 +7,6 @@ const AUTH_CONFIG = Object.freeze({
 
   /**
    * sessionStorage / localStorage のキー名
-   * 推測されにくい名前にする
    */
   sessionKey: '_gw_sa_9bk2m',
 
